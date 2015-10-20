@@ -20,6 +20,8 @@ const CONTENT_TYPE_JSON_UTF8 = 'application/json; charset=utf-8';
  * HTTP Requests to the API
  */
 class ApiRequester {
+  static String authorizationHeader;
+  
   final http.Client _httpClient;
   final String _rootUrl;
   final String _basePath;
@@ -216,6 +218,10 @@ class ApiRequester {
 
       var request = new _RequestImpl(method, uri, bodyController.stream);
       request.headers.addAll(headers);
+      
+      if (authorizationHeader != null)
+        request.headers['authorization'] = authorizationHeader;
+      
       return _httpClient.send(request);
     }
 
